@@ -24,7 +24,7 @@ mandelViz <- function(real_mar = c(-1.6, 1), imag_mar = c(-1, 1), resol = 250,
   assertthat::assert_that(length(resol) == 1)
   assertthat::assert_that(!any(is.na(c(real_mar, imag_mar, resol))))
 
-  res <- mandelCalc(real_mar, imag_mar, resolution = resol, bound = 10e+3,
+  res <- mandelCalc(real_mar, imag_mar, resolution = resol,
                     parallel = parallel, n_cores = n_cores)
 
   g <- ggplot2::ggplot(res, ggplot2::aes(x = Re(grid),
