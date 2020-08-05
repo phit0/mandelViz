@@ -1,18 +1,18 @@
-check_infinity <- function(ci, it, bound) {
+check_infinity <- function(ci, it) {
   assertthat::assert_that(is.complex(ci))
   assertthat::assert_that(length(ci) == 1)
   assertthat::assert_that(is.numeric(it))
   assertthat::assert_that(it %% 1 == 0)
   z <- 0
   k <- 0
-  while(Mod(z) < bound & k < it) {
+  while(Mod(z) < 10e+3 & k < it) {
     z <- z**2 + ci
     k <- k + 1
   }
   return(k)
 }
 
-mandelCalc <- function(real_margin, imag_margin, resolution, bound,
+mandelCalc <- function(real_margin, imag_margin, resolution,
                       parallel = "no", n_cores) {
   width <- abs(diff(real_margin))
   height <- abs(diff(imag_margin))
@@ -24,8 +24,8 @@ mandelCalc <- function(real_margin, imag_margin, resolution, bound,
 
   switch (parallel,
           "no" =  Infty <-
-            sapply(comp_v, FUN = check_infinity, it = 100, bound = bound),
-          "yes" = Infty <- parallel_run(comp_v, it = 100, bound = bound, n_cores)
+            sapply(comp_v, FUN = check_infinity, it = 100),
+          "yes" = Infty <- parallel_run(comp_v, it = 100, n_cores)
   )
 
 
@@ -33,8 +33,7 @@ mandelCalc <- function(real_margin, imag_margin, resolution, bound,
   return(data)
 }
 
-parallel_run <- function(comp_v, it, bound = bound, n_cores) {
-  library(foreach)
+parallel_run <- function(comp_v, it, n_cores) {
   cl <- parallel::makeCluster(n_cores, outfile = "")
   doParallel::registerDoParallel(cl)
   pb <- txtProgressBar(0, max = length(comp_v), style = 3)
@@ -43,7 +42,7 @@ parallel_run <- function(comp_v, it, bound = bound, n_cores) {
                             .export = "check_infinity") %dopar%
     {
       setTxtProgressBar(pb, i)
-      check_infinity(comp_v[i], it = it, bound = bound)
+      check_infinity(comp_v[i], it = it)
     }
   close(pb)
   parallel::stopCluster(cl)
