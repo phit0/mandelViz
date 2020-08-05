@@ -30,8 +30,8 @@ mandelViz <- function(real_mar = c(-1.6, 1), imag_mar = c(-1, 1), resol = 250,
   g <- ggplot2::ggplot(res, ggplot2::aes(x = Re(grid),
                                 y = Im(grid),
                                 fill = volat.)) +
-    geom_tile() +
-    scale_fill_gradientn(colours = c('#8A0808', '#F4FA58', '#2EFE2E',
+    ggplot2::geom_tile() +
+    ggplot2::scale_fill_gradientn(colours = c('#8A0808', '#F4FA58', '#2EFE2E',
                                      '#01A9DB', '#000000', '#0B0B61'))
 
 
