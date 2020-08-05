@@ -33,6 +33,8 @@ mandelCalc <- function(real_margin, imag_margin, resolution,
   return(data)
 }
 
+# define binary operator from foreach package
+'%dopar%' <- foreach::'%dopar%'
 parallel_run <- function(comp_v, it, n_cores) {
   cl <- parallel::makeCluster(n_cores, outfile = "")
   doParallel::registerDoParallel(cl)
