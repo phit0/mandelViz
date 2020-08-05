@@ -1,3 +1,21 @@
+#' Title
+#'
+#' @param real_mar a vector of two numbers indicating the lower and upper limit
+#' on the real axis.
+#' @param imag_mar a vector of two numbers indicating the lower and upper limit
+#' on the imaginary axis.
+#' @param resol the number of equally spaced points on the smaller of the two
+#' axes.
+#' @param n_cores number of cores if the parallel function is chosen.
+#' @param parallel default is "yes". It "no" a sapply is used for calculation
+#' @param cmd logical: if the function is used in an executable file,
+#'  see details.
+#'
+#' @return a .tiff image stored in the current working directory, where the
+#' function was used.
+#' @export
+#'
+#' @examples
 mandelViz <- function(real_mar = c(-1.6, 1), imag_mar = c(-1, 1), resol = 250,
                       n_cores =  parallel::detectCores() - 1, parallel = "yes",
                       cmd = FALSE) {
